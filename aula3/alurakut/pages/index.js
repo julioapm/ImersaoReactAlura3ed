@@ -21,6 +21,21 @@ function ProfileSidebar(props) {
   );
 }
 
+function ProfileRelationsBox(props) {
+  return (
+    <ProfileRelationsBoxWrapper>
+        <h2 className="smallTitle">{props.title} ({props.items.length})</h2>
+        <ul>
+            {seguidores.map((itemAtual) => {
+              return (
+                <li>algo</li>
+              );
+            })}
+        </ul>
+    </ProfileRelationsBoxWrapper>
+  );
+}
+
 export default function Home() {
   const usuarioAleatorio = 'julioapm';
   const [comunidades, setComunidades] =  React.useState([{
@@ -29,6 +44,14 @@ export default function Home() {
     image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
   }]); //React hooks
   const pessoasFavoritas = ['julioapm','bcopstein'];
+
+  const [seguidores, setSeguidores] = Readct.useState([]);
+  React.useEffect(() => {
+    fetch('https://api.github.com/users/julioapm/followers')
+    .then(response => response.json())
+    .then(json => setSeguidores(json));
+  }, []);
+
   return (
     <>
     <AlurakutMenu />
@@ -78,6 +101,7 @@ export default function Home() {
         </Box>
       </div>
       <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+        <ProfileRelationsBox title="Seguidores" items={seguidores}/>
         <ProfileRelationsBoxWrapper>
         <h2 className="smallTitle">Comunidades ({comunidades.length})</h2>
         <ul>
